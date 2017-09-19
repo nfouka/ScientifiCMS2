@@ -1,0 +1,437 @@
+{#
+   This is the base template used as the application layout which contains the
+   common elements and decorates all the other templates.
+   See https://symfony.com/doc/current/book/templating.html#template-inheritance-and-layouts
+#}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>{% block title %}Symfony Demo application{% endblock %}</title>
+        <link rel="alternate" type="application/rss+xml" title="{{ 'rss.title'|trans }}" href="{{ path('blog_rss') }}">
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+            <link rel="stylesheet" href="{{ asset('build/css/style.css') }}">
+        {% endblock %}
+        
+ 
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <div style="background-color:#2C3E50 ; color : white">
+        
+        <h1 style="color: white;padding: 5px;font-family: Georgia ; text-align: center">CLI and the Web Server With Symfony 3.3.9</h1> 
+        <p style="color: white; padding: 5px ;font-family: Georgia ;text-align: center ">By nadir.fouka@gmail.com</p>
+        
+        </div>
+    
+    
+    
+        
+        
+    </head>
+
+    <body id="{% block body_id %}{% endblock %}">
+
+        {% block header %}
+            <header>
+                <div class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="container-fluid" style="background-color: #134E77 ;">
+                        <div class="navbar-header" >
+                            <a class="navbar-brand" href="{{ path('homepage') }}">
+                                Application INTRANET SAS
+                            </a>
+
+                            <button type="button" class="navbar-toggle"
+                                    data-toggle="collapse"
+                                    data-target=".navbar-collapse">
+                                <span class="sr-only">{{ 'menu.toggle_nav'|trans }}</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        
+                        
+                        <div class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right">
+
+                                {% block header_navigation_links %}
+                                    
+                                    <li>
+                                        <a href="{{ path('blog_index') }}">
+                                            <i class="fa fa-home" aria-hidden="true"></i> {{ 'menu.homepage'|trans }}
+                                        </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="{{ path('admin_index') }}">
+                                            <i class="fa fa-home" aria-hidden="true"></i> {{ 'Admin'|trans }}
+                                        </a>
+                                    </li>
+                                    
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li>
+                                            <a href="{{ path('admin_post_index') }}">
+                                                <i class="fa fa-lock" aria-hidden="true"></i> {{ 'menu.admin'|trans }}
+                                            </a>
+                                            
+                                        </li>
+                                        
+                                    
+                                    {% endif %}
+                                {% endblock %}
+
+                                {% if app.user %}
+                                    
+                                    <li>
+                                        <a href="{{ path('security_logout') }}">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i> {{ app.user.email }}
+                                        </a>
+                                    </li>
+                                    
+                                {% endif %}
+
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="locales">
+                                        <i class="fa fa-globe" aria-hidden="true"></i>
+                                        <span class="caret"></span>
+                                        <span class="sr-only">{{ 'menu.choose_language'|trans }}</span>
+                                    </a>
+                                    <ul class="dropdown-menu locales" role="menu" aria-labelledby="locales">
+                                        {% for locale in locales() %}
+                                            <li {% if app.request.locale == locale.code %}aria-checked="true" class="active"{% else %}aria-checked="false"{% endif %} role="menuitem"><a href="{{ path(app.request.get('_route', 'blog_index'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}">{{ locale.name|capitalize }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                    
+                                        
+                                        
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        {% endblock %}
+
+        <div class="container-fluid body-container">
+            {% block body %}
+            
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+           
+       
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+    
+    <div class="section about">
+
+<div id="alert_comment">
+</div>
+
+        <div class="well well-lg">
+       				Ceci est une application de démonstration construite avec le framework Symfony pour illustrer la façon recommandée de développer des applications Symfony.
+
+Pour plus d'informations, <a href="https://symfony.com/doc">consultez la documentation de Symfony. </a>
+	    </div>
+                <div class="well well-lg">
+       				Ceci est une application de démonstration construite avec le framework Symfony pour illustrer la façon recommandée de développer des applications Symfony.
+
+Pour plus d'informations, <a href="https://symfony.com/doc">consultez la documentation de Symfony. </a>
+	    </div>
+</div>
+    
+    
+                     
+    </div>
+    <div class="col-md-5">
+    
+    <div class="section about">
+    <div class="well well-lg">
+        <div id="sidebar">
+    {{ render(controller(
+        'AppBundle:Blog:Wget'
+    )) }}
+</div>
+    </div>
+</div>
+
+                          
+
+    </div>
+    
+    <div class="col-md-4">
+                            
+
+    <div class="section about">
+    <div class="well well-lg">
+       
+Ceci est une application de démonstration construite avec le framework Symfony pour illustrer la façon recommandée de développer des applications Symfony.
+
+Pour plus d'informations, <a href="https://symfony.com/doc">consultez la documentation de Symfony. </a>
+Ceci est une application de démonstration construite avec le framework Symfony pour illustrer la façon recommandée de développer des applications Symfony.
+
+Pour plus d'informations, <a href="https://symfony.com/doc">consultez la documentation de Symfony. </a>
+Ceci est une application de démonstration construite avec le framework Symfony pour illustrer la façon recommandée de développer des applications Symfony.
+
+Pour plus d'informations, <a href="https://symfony.com/doc">consultez la documentation de Symfony. </a>
+    </div>
+</div>
+
+    </div>
+
+
+
+
+  </div>
+</div>
+
+  {% else %}        
+  {% endif %}
+  
+<hr>
+	
+	<script type="text/javascript">
+
+	$('.carousel').carousel();
+	
+	var pieChartValues = [{
+		  y: 39.16,
+		  exploded: true,
+		  indexLabel: "Hello",
+		  color: "#1f77b4"
+		}, {
+		  y: 21.8,
+		  indexLabel: "Hi",
+		  color: "#ff7f0e"
+		}, {
+		  y: 21.45,
+		  indexLabel: "pk",
+		  color: " #ffbb78"
+		}, {
+		  y: 5.56,
+		  indexLabel: "one",
+		  color: "#d62728"
+		}, {
+		  y: 5.38,
+		  indexLabel: "two",
+		  color: "#98df8a"
+		}, {
+		  y: 3.73,
+		  indexLabel: "three",
+		  color: "#bcbd22"
+		}, {
+		  y: 2.92,
+		  indexLabel: "four",
+		  color: "#f7b6d2"
+		}];
+		renderPieChart(pieChartValues);
+
+		function renderPieChart(values) {
+
+		  var chart = new CanvasJS.Chart("pieChart", {
+		    backgroundColor: "white",
+		    colorSet: "colorSet2",
+
+		    title: {
+		      text: "Pie Chart",
+		      fontFamily: "Verdana",
+		      fontSize: 25,
+		      fontWeight: "normal",
+		    },
+		    animationEnabled: true,
+		    data: [{
+		      indexLabelFontSize: 15,
+		      indexLabelFontFamily: "Monospace",
+		      indexLabelFontColor: "darkgrey",
+		      indexLabelLineColor: "darkgrey",
+		      indexLabelPlacement: "outside",
+		      type: "pie",
+		      showInLegend: false,
+		      toolTipContent: "<strong>#percent%</strong>",
+		      dataPoints: values
+		    }]
+		  });
+		  chart.render();
+		}
+		var columnChartValues = [{
+		  y: 686.04,
+		  label: "one",
+		  color: "#1f77b4"
+		}, {
+		  y: 381.84,
+		  label: "two",
+		  color: "#ff7f0e"
+		}, {
+		  y: 375.76,
+		  label: "three",
+		  color: " #ffbb78"
+		}, {
+		  y: 97.48,
+		  label: "four",
+		  color: "#d62728"
+		}, {
+		  y: 94.2,
+		  label: "five",
+		  color: "#98df8a"
+		}, {
+		  y: 65.28,
+		  label: "Hi",
+		  color: "#bcbd22"
+		}, {
+		  y: 51.2,
+		  label: "Hello",
+		  color: "#f7b6d2"
+		}];
+		renderColumnChart(columnChartValues);
+
+		function renderColumnChart(values) {
+
+		  var chart = new CanvasJS.Chart("columnChart", {
+		    backgroundColor: "white",
+		    colorSet: "colorSet3",
+		    title: {
+		      text: "Column Chart",
+		      fontFamily: "Verdana",
+		      fontSize: 25,
+		      fontWeight: "normal",
+		    },
+		    animationEnabled: true,
+		    legend: {
+		      verticalAlign: "bottom",
+		      horizontalAlign: "center"
+		    },
+		    theme: "theme2",
+		    data: [
+
+		      {
+		        indexLabelFontSize: 15,
+		        indexLabelFontFamily: "Monospace",
+		        indexLabelFontColor: "darkgrey",
+		        indexLabelLineColor: "darkgrey",
+		        indexLabelPlacement: "outside",
+		        type: "column",
+		        showInLegend: false,
+		        legendMarkerColor: "grey",
+		        dataPoints: values
+		      }
+		    ]
+		  });
+
+		  chart.render();
+		}
+
+
+		$(".single-item").slick({
+			dots: true
+		});
+
+
+	</script>
+	
+	
+                <div class="row">
+                
+                    <div id="sidebar" class="col-sm-2">
+                              {{ render_esi(controller('FrameworkBundle:Template:template', {
+                                'template': 'blog/about.html.twig',
+                                'sharedAge': 600,
+                                '_locale': app.request.locale
+                            })) }}
+                            
+                              {{ render_esi(controller('FrameworkBundle:Template:template', {
+                                'template': 'blog/about.html.twig',
+                                'sharedAge': 600,
+                                '_locale': app.request.locale
+                            })) }}
+                            
+                              {{ render_esi(controller('FrameworkBundle:Template:template', {
+                                'template': 'blog/about.html.twig',
+                                'sharedAge': 600,
+                                '_locale': app.request.locale
+                            })) }}
+                            
+                              {{ render_esi(controller('FrameworkBundle:Template:template', {
+                                'template': 'blog/about.html.twig',
+                                'sharedAge': 600,
+                                '_locale': app.request.locale
+                            })) }}
+                        
+                    </div>
+                    
+                    <div id="main" class="col-sm-8">
+                        {{ include('default/_flash_messages.html.twig') }}
+
+                        {% block main %}{% endblock %}
+                    </div>
+
+                    <div id="sidebar" class="col-sm-2">
+                        {% block sidebar %}
+                            {{ render_esi(controller('FrameworkBundle:Template:template', {
+                                'template': 'blog/about.html.twig',
+                                'sharedAge': 600,
+                                '_locale': app.request.locale
+                            })) }}
+                            
+                                                       {{ render_esi(controller('FrameworkBundle:Template:template', {
+                                'template': 'blog/about.html.twig',
+                                'sharedAge': 600,
+                                '_locale': app.request.locale
+                            })) }}
+                            
+                            
+                                                       {{ render(controller('FrameworkBundle:Template:template', {
+                                'template': 'blog/about.html.twig',
+                                'sharedAge': 600,
+                                '_locale': app.request.locale
+                            })) }}
+                            
+                        {% endblock %}
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+
+        {% block footer %}
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        <div id="footer-copyright" class="col-md-6">
+                            <p>&copy; {{ 'now'|date('Y') }} - The Symfony Project</p>
+                            <p>{{ 'mit_license'|trans }}</p>
+                        </div>
+                        
+                        <div id="footer-resources" class="col-md-6">
+                            <p>
+                                <a href="https://twitter.com/symfony" title="Symfony Twitter">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://www.facebook.com/SensioLabs" title="SensioLabs Facebook">
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                </a>
+                                <a href="https://symfony.com/blog/" title="Symfony Blog">
+                                    <i class="fa fa-rss" aria-hidden="true"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        {% endblock %}
+
+        {% block javascripts %}
+            <script src="{{ asset('build/manifest.js') }}"></script>
+            <script src="{{ asset('build/js/common.js') }}"></script>
+            <script src="{{ asset('build/js/app.js') }}"></script>
+        {% endblock %}
+
+        {# it's not mandatory to set the timezone in localizeddate(). This is done to
+           avoid errors when the 'intl' PHP extension is not available and the application
+           is forced to use the limited "intl polyfill", which only supports UTC and GMT #}
+        <!-- Page rendered on {{ 'now'|localizeddate('long', 'long', null, 'UTC') }} -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
+    
+    </body>
+</html>

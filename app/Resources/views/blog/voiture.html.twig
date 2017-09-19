@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'blog_index' %}
+
+{% block main %}
+
+
+    {% for voiture in voitures %}
+        <article class="post">
+            <h2>
+                <a href="#">
+                    {{ voiture.type }}
+                </a>
+            </h2>
+
+            <p class="post-metadata">
+                <span class="metadata"><i class="fa fa-calendar"></i> {{ voiture.publishedAt|localizeddate('long', 'medium', null, 'UTC') }}</span>
+                <span class="metadata"><i class="fa fa-user"></i> {{ voiture.author.fullName }}</span>
+            </p>
+
+            {{ voiture.description|md2html }}
+            
+            
+            
+            <h2>
+                <a href="#" style="color: red;">
+                   Price {{ voiture.prices }} € 
+                </a>
+            </h2>
+                
+                
+{% if not voiture.tags.empty %}
+    <p class="post-tags">
+        {% for tag in voiture.tags %}
+            <span class="label label-default">
+                <i class="fa fa-tag"></i> {{ tag.name }}
+            </span>
+        {% endfor %}
+    </p>
+{% endif %}
+
+
+
+
+        </article>
+    {% else %}
+        <div class="well">{{ 'post.no_posts_found'|trans }}</div>
+    {% endfor %}
+    
+        <div class="navigation text-center">
+            {{ pagerfanta(voitures , 'twitter_bootstrap3' , {routeName: 'voiture_index_paginated'} ) }}
+        </div>
+
+{% endblock %}
